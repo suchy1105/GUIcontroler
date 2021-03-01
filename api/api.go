@@ -18,31 +18,36 @@ type Message struct {
 }
 func ControlAPI() func(router chi.Router) {
 	return func(router chi.Router) {
-			router.Post("v1/message/", PostData)
+			router.Post("v1/message/", postData())
 
-			router.Get("v1/message/", GetData)
-			router.Get("v1/health", CheckHealth)
+			router.Get("v1/message/", getData())
+			router.Get("v1/health", checkHealth())
 	}
 }
-func CheckHealth(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusOK)
+func checkHealth() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+	}
 }
 //Get API
-func GetData(w http.ResponseWriter, r *http.Request) {
+func getData() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
 
-	reqEmail := strings.Split(r.RequestURI, "/api/message/")
-	fmt.Println(reqEmail[1])
-
+		reqEmail := strings.Split(r.RequestURI, "/api/message/")
+		fmt.Println(reqEmail[1])
+	}
 }
 //Post API
-func PostData(w http.ResponseWriter, r *http.Request) {
-	var message Message
-	json.NewDecoder(r.Body).Decode(&message)
+func postData() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		var message Message
+		json.NewDecoder(r.Body).Decode(&message)
 
-//TODO
-	w.Write([]byte(`{"message": "post called"}`))
+		//TODO
+		w.Write([]byte(`{"message": "post called"}`))
 
-	w.WriteHeader(http.StatusCreated)
+		w.WriteHeader(http.StatusCreated)
+	}
 }
 
 //NotFound 404

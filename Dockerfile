@@ -2,8 +2,11 @@ FROM alpine
 
 RUN apk add git go
 #RUN bash
-RUN go get -u github.com/go-chi/chi
-RUN go get gopkg.in/yaml.v2
+RUN go get -u github.com/go-chi/chi \
+    gopkg.in/yaml.v2 \
+    github.com/rs/zerolog \
+    github.com/rs/zerolog/log
+
 
 RUN mkdir /app
 ADD . /app

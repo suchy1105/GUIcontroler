@@ -2,22 +2,22 @@ package main//GUIsocket
 
 import (
 	"fmt"
-	"github.com/go-chi/chi"
+	//"github.com/go-chi/chi"
 	"net/http"
-	"config"
-	"api/api"
+	"github.com/suchy1105/GUIcontroler/api"
+//	"github.com/suchy1105/GUIcontroler/config"
 )
 
 func main() {
 	defer run()
 }
 func run() {
+	fmt.Println("karil")
+	//router:=
 
 
 
-	router := chi.NewRouter()
 
-
-	http.ListenAndServe(":8080", router)
+	http.ListenAndServe(":8080", api.ControlAPI() )
 
 }

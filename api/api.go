@@ -18,24 +18,24 @@ type Message struct {
 }
 func ControlAPI() func(router chi.Router) {
 	return func(router chi.Router) {
-			router.Post("v1/data/", postData)
+			router.Post("v1/message/", PostData)
 
-			router.Get("v1/data/", getData)
-			router.Get("v1/health", checkHealth)
+			router.Get("v1/message/", GetData)
+			router.Get("v1/health", CheckHealth)
 	}
 }
-func checkHealth(w http.ResponseWriter, r *http.Request) {
+func CheckHealth(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 //Get API
-func getData(w http.ResponseWriter, r *http.Request) {
+func GetData(w http.ResponseWriter, r *http.Request) {
 
-	reqEmail := strings.Split(r.RequestURI, "/api/messages/")
+	reqEmail := strings.Split(r.RequestURI, "/api/message/")
 	fmt.Println(reqEmail[1])
 
 }
 //Post API
-func postData(w http.ResponseWriter, r *http.Request) {
+func PostData(w http.ResponseWriter, r *http.Request) {
 	var message Message
 	json.NewDecoder(r.Body).Decode(&message)
 

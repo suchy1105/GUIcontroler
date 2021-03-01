@@ -1,0 +1,8 @@
+version: '2.4'
+services:
+
+  GUIsocket:
+    image: "guisocket"
+    container_name: gui
+    ports:
+      - "1600:1600"

@@ -3,6 +3,6 @@ services:
 
   GUIsocket:
     image: "guisocket"
-    container_name: gui
+    container_name: GUIapi
     ports:
       - "1600:1600"

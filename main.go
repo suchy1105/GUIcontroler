@@ -1,95 +1,36 @@
 package main//GUIsocket
 
 import (
-	"encoding/json"
-	"fmt"
 	"github.com/go-chi/chi"
-	"io/ioutil"
-	"os"
-	"strings"
-	"sync"
-	"time"
-	golog "log"
-
 	_ "github.com/rs/zerolog"
-	"github.com/rs/zerolog/log"
-	//"github.com/go-chi/chi"
-	"net/http"
 	"github.com/suchy1105/GUIcontroler/api"
-//	"github.com/suchy1105/GUIcontroler/config"
+	"github.com/suchy1105/GUIcontroler/config"
+	"net/http"
+
+	//	"github.com/suchy1105/GUIcontroler/config"
 )
 
 func main() {
-	os.Exit(run())
+	defer run()
 }
-func run() int {
-	fmt.Println("karil")
-	//router:=
-	var guiRouter chi.Router = chi.NewRouter()
+func run() {
+	var err error
+	var conf config.Configuration
+	conf.GetConf()
 
-	guiRouter.Post("v1/message/", postData())
 
-	guiRouter.Get("v1/message/", getData())
-	guiRouter.Get("v1/health", checkHealth())
+	router := chi.NewRouter()
 
-	var wg sync.WaitGroup
 
-	apiServer := http.Server{
-		Addr:           ":1009",
-		Handler:        guiRouter,
-		ReadTimeout:    360 * time.Second,
-		WriteTimeout:   360 * time.Second,
-		MaxHeaderBytes: 1 << 20,
-		// discard error logs
-		ErrorLog: golog.New(ioutil.Discard, "", 0),
-	}
-	wg.Add(1)
-	go func(wg *sync.WaitGroup) {
-		defer wg.Done()
-		log.Log().Msgf("starting GUI server", apiServer.Addr)
-		err := apiServer.ListenAndServe()
-		if err != nil {
-			if err != http.ErrServerClosed {
-				log.Warn().Err(err).Caller().Msg("error while closing api server")
-			}
-		}
-	}(&wg)
+	router.Route("/apiv1", func(router chi.Router) {
 
-	return 0
-}
+		router.Post("/message", api.PostMessage)
 
-func checkHealth() http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		w.WriteHeader(http.StatusOK)
-	}
-}
-//Get API
-func getData() http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
 
-		reqEmail := strings.Split(r.RequestURI, "/api/message/")
-		fmt.Println(reqEmail[1])
-		w.WriteHeader(http.StatusTeapot)
-	}
-
-}
-//Post API
-func postData() http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		var message api.Message
-		json.NewDecoder(r.Body).Decode(&message)
-
-		//TODO
-		w.Write([]byte(`{"message": "post called"}`))
-
-		w.WriteHeader(http.StatusCreated)
-	}
-}
-
-//NotFound 404
-func NotFound(w http.ResponseWriter, r *http.Request) {
-
-	w.WriteHeader(http.StatusNotFound)
-
+		router.Get("/message/", api.GetMessages)
+		router.Get("/checkhealth", api.CheckHealth)
+		router.NotFound(api.NotFound)
+	})
+	http.ListenAndServe(":1600", router)
 
 }

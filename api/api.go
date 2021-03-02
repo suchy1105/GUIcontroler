@@ -2,27 +2,28 @@ package api
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
-	"strings"
-	"fmt"
-	"time"
 )
 
-type Message struct {
-	Email       string `json:"email"`
-	Title       string `json:"title"`
-	Content     string `json:"content"`
-	MagicNumber int32  `json:"magic_number"`
+type GuiState struct {
+	Ip       string `json:"ip"`
+	Mac       string `json:"mac"`
+	ConnState bool `json:"cstate"`
+	PlayStipa bool  `json:"stipa"`
 }
 
 //GetMessages API  messages get provider
 func GetMessages(w http.ResponseWriter, r *http.Request) {
 
-	reqEmail := strings.Split(r.RequestURI, "/apiv1/messages/")
-	fmt.Println(reqEmail[1])
 
-	var message Message
+/*	 guistate:=GuiState{
+		 Ip:        "0.0.0.0",
+		 Mac:       "ABCD:EGGH:1234:5678",
+		 ConnState: true,
+		 PlayStipa: false,
+	 }*/
 
 	fmt.Println("List allrequri: ", r.RequestURI)
 
@@ -30,7 +31,7 @@ func GetMessages(w http.ResponseWriter, r *http.Request) {
 
 
 
-			response, err := json.Marshal(message)
+			response, err := json.Marshal(guistate)
 			if err != nil {
 				log.Println("Can't marshal data: ", err)
 			}
@@ -46,22 +47,15 @@ func GetMessages(w http.ResponseWriter, r *http.Request) {
 }
 //PostMessage posts
 func PostMessage(w http.ResponseWriter, r *http.Request) {
-	var message Message
-	json.NewDecoder(r.Body).Decode(&message)
+	var guistate GuiState
+	json.NewDecoder(r.Body).Decode(&guistate)
 
-	zerotime := time.Now()
-	fmt.Println(time.Now().Sub(zerotime))
-	fmt.Println("mess: ",message," :mess")
-	if err := Session.Query(`INSERT INTO mess (email, title, content, magic_number, timestamp) VALUES (?, ?, ?, ?, ?)`,
-		&message.Email, &message.Title, &message.Content, &message.MagicNumber, zerotime.Format(time.UnixDate)).Exec(); err != nil {
-		log.Println("Insertion error: ", err)
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
+	fmt.Println("mess: ",guistate," :mess")
+
 
 	w.Write([]byte(`{"message": "post called"}`))
-	fmt.Println("messsend:  ", message.MagicNumber)
-	w.WriteHeader(http.StatusCreated)
+
+	//w.WriteHeader(http.StatusCreated)
 }
 
 //NotFound 404
@@ -73,11 +67,10 @@ func NotFound(w http.ResponseWriter, r *http.Request) {
 }
 
 
-func CheckHealth() http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
+func  CheckHealth(w http.ResponseWriter, r *http.Request) {
 
 		w.WriteHeader(http.StatusOK)
-	}
+
 }
 //Get API
 /*

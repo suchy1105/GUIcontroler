@@ -1,6 +1,6 @@
 #!/bin/bash
 
-docker stop gui
-docker rm gui
+docker stop GUIapi
+docker rm GUIapi
 docker build -t guisocket .
 docker-compose -f run.yml up -d

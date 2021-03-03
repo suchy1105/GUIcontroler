@@ -13,49 +13,46 @@ type GuiState struct {
 	ConnState bool `json:"cstate"`
 	PlayStipa bool  `json:"stipa"`
 }
-
+func NewGuiState()*GuiState{
+	 g:= GuiState{
+		Ip:        "xx",
+		Mac:       "xx",
+		ConnState: false,
+		PlayStipa: false,
+	}
+	return &g
+}
 //GetMessages API  messages get provider
-func GetMessages(w http.ResponseWriter, r *http.Request) {
-
-
-/*	 guistate:=GuiState{
-		 Ip:        "0.0.0.0",
-		 Mac:       "ABCD:EGGH:1234:5678",
-		 ConnState: true,
-		 PlayStipa: false,
-	 }*/
+func (g *GuiState)GetMessages(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println("List allrequri: ", r.RequestURI)
+	fmt.Println("GG: ", g)
 
-
-
-
-
-			response, err := json.Marshal(guistate)
+			response, err := json.Marshal(g)
 			if err != nil {
 				log.Println("Can't marshal data: ", err)
 			}
 			fmt.Println("odpowiedz: ",response)
 			w.Write(response)
 
-
-
-
-
-	fmt.Println("done")
-
+w.WriteHeader(http.StatusOK)
 }
 //PostMessage posts
-func PostMessage(w http.ResponseWriter, r *http.Request) {
-	var guistate GuiState
-	json.NewDecoder(r.Body).Decode(&guistate)
+func (g *GuiState)PostMessage(w http.ResponseWriter, r *http.Request) {
+	guistate:=NewGuiState()
+	json.NewDecoder(r.Body).Decode(guistate)
 
-	fmt.Println("mess: ",guistate," :mess")
+	g.Ip=guistate.Ip
+	g.Mac=guistate.Mac
+	g.ConnState=guistate.ConnState
+	g.PlayStipa=guistate.PlayStipa
 
 
-	w.Write([]byte(`{"message": "post called"}`))
+	fmt.Println(g)
+	fmt.Println(g.Ip)
+	fmt.Println(guistate.Ip)
 
-	//w.WriteHeader(http.StatusCreated)
+	w.WriteHeader(http.StatusCreated)
 }
 
 //NotFound 404
@@ -65,7 +62,6 @@ func NotFound(w http.ResponseWriter, r *http.Request) {
 
 
 }
-
 
 func  CheckHealth(w http.ResponseWriter, r *http.Request) {
 

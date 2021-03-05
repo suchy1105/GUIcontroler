@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"github.com/go-chi/chi"
 	_ "github.com/rs/zerolog"
-	"github.com/suchy1105/GUIcontroler/gui"
 	"github.com/suchy1105/GUIcontroler/api"
+	"github.com/suchy1105/GUIcontroler/gui"
 	"time"
 	//"./api"
 	//"github.com/suchy1105/GUIcontroler/config"
@@ -24,7 +24,7 @@ func run() {
 //	conf.GetConf()
 //
 go timer()
-go GUI.NewWindow()
+go gui.GUI()
 router := chi.NewRouter()
 	g:=api.NewGuiState()
 

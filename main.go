@@ -1,10 +1,11 @@
 package main//GUIsocket
 
 import (
-	"./GUI"
+	//"./gui"
 	"fmt"
 	"github.com/go-chi/chi"
 	_ "github.com/rs/zerolog"
+	"github.com/suchy1105/GUIcontroler/gui"
 	"github.com/suchy1105/GUIcontroler/api"
 	"time"
 	//"./api"

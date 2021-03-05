@@ -1,9 +1,12 @@
 package main//GUIsocket
 
 import (
+	"./GUI"
+	"fmt"
 	"github.com/go-chi/chi"
 	_ "github.com/rs/zerolog"
 	"github.com/suchy1105/GUIcontroler/api"
+	"time"
 	//"./api"
 	//"github.com/suchy1105/GUIcontroler/config"
 	"net/http"
@@ -19,7 +22,8 @@ func run() {
 //	var conf config.Configuration
 //	conf.GetConf()
 //
-
+go timer()
+go GUI.NewWindow()
 router := chi.NewRouter()
 	g:=api.NewGuiState()
 
@@ -32,6 +36,13 @@ router := chi.NewRouter()
 		router.Get("/checkhealth", api.CheckHealth)
 		router.NotFound(api.NotFound)
 	})
+	fmt.Println("lisetner")
 	http.ListenAndServe(":1600", router)
 
+}
+func  timer() {
+	for {
+		fmt.Println("work in progress")
+		time.Sleep(1 * time.Second)
+	}
 }

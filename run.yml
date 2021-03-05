@@ -1,8 +1,11 @@
-version: '2.4'
+version: '2.'
 services:
 
   GUIsocket:
-    image: "guisocket"
+    image: "suchy1105/guisocket"
     container_name: GUIapi
-    ports:
-      - "1600:1600"
+
+  - .:/src/csdip-detector
+    - ../csdip:/src/csdip
+    - $GOPATH/pkg/mod/cache/download:/go/pkg/mod/cache/download
+    command: sh -c "cd /src/csdip-detector && make clean && make build"

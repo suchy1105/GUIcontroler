@@ -1,103 +1,106 @@
 package gui
 import (
-	"image"
-	"image/color"
+	"fmt"
 
 	"gioui.org/app"
-	"gioui.org/f32"
-	"gioui.org/io/pointer"
+
+	//"image"
+	//"image/draw"
+
+	"gioui.org/font/gofont"
 	"gioui.org/io/system"
 	"gioui.org/layout"
 	"gioui.org/op"
-	"gioui.org/op/paint"
 	"gioui.org/unit"
+	"gioui.org/widget"
+	//"gioui.org/widget/float"
+	"gioui.org/widget/material"
 )
 
+// START OMIT
 func GUI() {
+	//m := Image{}
+	//pic.ShowImage(m)
+
 	go func() {
-		w := app.NewWindow()
+		w := app.NewWindow(app.Size(unit.Dp(800), unit.Dp(480)))
 		loop(w)
 	}()
 	app.Main()
 }
 
 func loop(w *app.Window) {
+	th := material.NewTheme(gofont.Collection())
 	var ops op.Ops
+	var float               = new(widget.Float)
+	// UI state.
+	var btn widget.Clickable
+	var count int
 
 	for e := range w.Events() {
 		if e, ok := e.(system.FrameEvent); ok {
 			gtx := layout.NewContext(&ops, e)
 
-			draw(gtx)
+			for btn.Clicked() {
+				count++
+			}
+			/*	layout.W.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
+				return
+			}*/
+			if count < 3 {
+				layout.W.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
+					return layout.Flex{Axis: layout.Vertical}.Layout(gtx,
+						layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+							return material.H5(th, fmt.Sprintf("Number of clicks: %d", count)).Layout(gtx)
+						}),
 
+
+						layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+							return material.Button(th, &btn, "Click me!").Layout(gtx)
+						}),
+
+
+						layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+							return layout.Flex{Alignment: layout.Middle}.Layout(gtx,
+								layout.Flexed(1, material.Slider(th, float, 0, 100).Layout),
+								layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+									return layout.UniformInset(unit.Dp(8)).Layout(gtx,
+										material.Body1(th, fmt.Sprintf("%.0f", float.Value)).Layout,
+									)
+								}),
+							)
+						}),
+					)
+				})
+			}
+			if count >2{
+			layout.W.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
+				return layout.Flex{Axis: layout.Vertical}.Layout(gtx,
+					layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+						return material.H5(th, fmt.Sprintf("Number: %d", count)).Layout(gtx)
+					}),
+
+
+					layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+						return material.Button(th, &btn, "Click me!").Layout(gtx)
+					}),
+
+
+					layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+						return layout.Flex{Alignment: layout.Middle}.Layout(gtx,
+							layout.Flexed(1, material.Slider(th, float, 0, 1000).Layout),
+							layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+								return layout.UniformInset(unit.Dp(8)).Layout(gtx,
+									material.Body1(th, fmt.Sprintf("%.0f", float.Value)).Layout,
+								)
+							}),
+						)
+					}),
+				)
+			})
+			}
 			e.Frame(gtx.Ops)
 		}
-	}
-}
-
-// START OMIT
-type checkbox struct {
-	checked bool
-}
-
-var boxes [10]checkbox
-
-func draw(gtx layout.Context) {
-	var children []layout.FlexChild
-	for i := range boxes {
-		box := &boxes[i]
-		children = append(children,
-			layout.Rigid(func(gtx layout.Context) layout.Dimensions {
-				return layout.UniformInset(unit.Dp(10)).Layout(gtx,
-					box.layout,
-				)
-			}),
-		)
-	}
-	layout.Flex{}.Layout(gtx, children...)
-}
-
-func (c *checkbox) layout(gtx layout.Context) layout.Dimensions {
-	const size = 50
-
-	// Process events using the key, c.
-	for _, e := range gtx.Events(c) {
-		if e, ok := e.(pointer.Event); ok {
-			if e.Type == pointer.Press {
-				c.checked = !c.checked
-			}
-		}
-	}
-
-	st := op.Push(gtx.Ops) // Save operation state.
-
-	// Confine input to the area covered by the checkbox.
-	pointer.Rect(image.Rectangle{Max: image.Point{
-		X: size,
-		Y: size,
-	}}).Add(gtx.Ops)
-	// Declare the filter with the key, c.
-	pointer.InputOp{Tag: c, Types: pointer.Press}.Add(gtx.Ops)
-
-	col := color.RGBA{A: 0xff, R: 0xff} // Red.
-	if c.checked {
-		col = color.RGBA{A: 0xff, G: 0xff} // Green.
-	}
-
-	// Draw checkbox. Red for unchecked, green for checked.
-	paint.ColorOp{Color: col}.Add(gtx.Ops)
-	paint.PaintOp{Rect: f32.Rectangle{Max: f32.Point{
-		X: size,
-		Y: size,
-	}}}.Add(gtx.Ops)
-
-	st.Pop() // Restore operation state.
-
-	// Specify layout dimensions.
-	return layout.Dimensions{
-		Size: image.Point{
-			X: size, Y: size,
-		},
 	}
 }
 

@@ -11,15 +11,15 @@ RUN printf '%s\n' 'path-exclude /usr/share/doc/*' 'path-include /usr/share/doc/*
     cp /usr/share/zoneinfo/Europe/Warsaw /etc/localtime && \
     echo "Europe/Warsaw" >  /etc/timezone
 
-COPY assets/zoneinfo.zip /usr/local/go/lib/time/zoneinfo.zip
+#COPY assets/zoneinfo.zip /usr/local/go/lib/time/zoneinfo.zip
 
-#COPY dist/hdetect /opt/husar/hdetect
+COPY dist/hdetect /opt/husar/hdetect
 #COPY dist/hdetect_launcher /opt/husar/hdetect_launcher
 
-RUN chmod -R +x /opt/husar/* && chmod -R +x /usr/bin
+#RUN chmod -R +x /opt/husar/* && chmod -R +x /usr/bin
 
 VOLUME /etc/husar
 VOLUME /var/husar
 
 STOPSIGNAL SIGINT
-CMD ["/opt/husar/hdetect_launcher", "/opt/husar/hdetect"]
+CMD ["/opt/husar/gui"]

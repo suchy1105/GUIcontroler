@@ -1,11 +1,14 @@
-version: '2.'
+version: '2.4'
 services:
 
   GUIsocket:
     image: "suchy1105/guisocket"
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: GUIapi
-
-  - .:/src/csdip-detector
-    - ../csdip:/src/csdip
+    volumes:
+    - /tmp/.X11-unix:/tmp/.X11-unix
+    - .:/src/gui
     - $GOPATH/pkg/mod/cache/download:/go/pkg/mod/cache/download
     command: sh -c "cd /src/csdip-detector && make clean && make build"

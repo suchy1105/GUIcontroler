@@ -23,7 +23,7 @@ COVERAGE_FILE:=coverage.out
 COVERAGE_HTML:=coverage.html
 
 GUI_BIN:=dist/gui
-#DETECTOR_SRC:=./cmd/gui#???????
+GUI_SRC:=./cmd/gui
 #LAUNCHER_BIN:=dist/hdetect_launcher
 #LAUNCHER_SRC:=./cmd/launcher
 
@@ -35,7 +35,8 @@ BUILDTIME=$(shell TZ=GMT date "+%Y-%m-%d_%H:%M_GMT")
 GITCOMMIT=$(shell git rev-parse --short HEAD 2>/dev/null)
 GITBRANCH=$(shell git rev-parse --abbrev-ref HEAD 2>/dev/null)
 
-PKG=github.com/mklimuk/csdip-detector
+PKG=github.com/suchy1105/GUIcontroler
+
 VERSION_TAG=-X $(PKG)/config.AppVersion=$(VERSION)
 COMMIT_TAG=-X $(PKG)/config.GitCommit=$(GITCOMMIT)
 BRANCH_TAG=-X $(PKG)/config.GitBranch=$(GITBRANCH)
@@ -82,8 +83,9 @@ clean:
 fmt:
 	goimports -l ./
 
-.PHONY: build $(GUI_BIN)
-build: $(GUI_BIN)
+
+.PHONY: build $(GUI_SRC)
+build: dirs $(GUI_BIN)
 
 $(GUI_BIN): dist
 	GO111MODULE=on CGO_ENABLED=0 go build -ldflags '$(LDFLAGS)' -o $(GUI_BIN) -v $(GUI_SRC)

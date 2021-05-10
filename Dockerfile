@@ -13,10 +13,10 @@ RUN printf '%s\n' 'path-exclude /usr/share/doc/*' 'path-include /usr/share/doc/*
 
 #COPY assets/zoneinfo.zip /usr/local/go/lib/time/zoneinfo.zip
 
-COPY dist/hdetect /opt/husar/hdetect
+COPY dist/gui /opt/husar/gui
 #COPY dist/hdetect_launcher /opt/husar/hdetect_launcher
 
-#RUN chmod -R +x /opt/husar/* && chmod -R +x /usr/bin
+RUN chmod -R +x /opt/husar/* && chmod -R +x /usr/bin
 
 VOLUME /etc/husar
 VOLUME /var/husar

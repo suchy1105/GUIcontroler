@@ -1,14 +1,19 @@
 version: '2.4'
 services:
-
-  GUIsocket:
-    image: "suchy1105/guisocket"
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: GUIapi
+  GUIcontroll:
+    image: "suchy11/guisocket:latest"
+    #env_file:
+    #  - /etc/hae/config/env/hae.env
+    #environment:
+    #  - HOST_IP
+    #privileged: true
+    restart: always
     volumes:
-    - /tmp/.X11-unix:/tmp/.X11-unix
-    - .:/src/gui
-    - $GOPATH/pkg/mod/cache/download:/go/pkg/mod/cache/download
-    command: sh -c "cd /src/csdip-detector && make clean && make build"
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - .:/app
+      - $GOPATH/pkg/mod/cache/download:/go/pkg/mod/cache/download
+    ports:
+      - 1551:1551
+      - 8080:8080
+    container_name: GUIcontroll
+    network_mode: "host"

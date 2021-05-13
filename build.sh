@@ -1,7 +1,7 @@
 #!/bin/bash
 
-docker stop GUIapi
-docker rm GUIapi
+docker stop GUIcontroll
+docker rm GUIcontroll
 make all
-docker build -t guisocket .
+docker build -t suchy11/guisocket:latest .
 docker-compose -f run.yml up -d

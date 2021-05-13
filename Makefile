@@ -22,7 +22,7 @@ export GO111MODULE=on
 COVERAGE_FILE:=coverage.out
 COVERAGE_HTML:=coverage.html
 
-GUI_BIN:=dist/gui
+GUI_BIN:=opt/husar/gui
 GUI_SRC:=./cmd/gui
 #LAUNCHER_BIN:=dist/hdetect_launcher
 #LAUNCHER_SRC:=./cmd/launcher
@@ -45,7 +45,7 @@ ARCH_TAG=-X $(PKG)/config.Arch=x64
 LDFLAGS=-s -w $(VERSION_TAG) $(COMMIT_TAG) $(BRANCH_TAG) $(BUILDTIME_TAG) $(ARCH_TAG)
 
 .PHONY: all
-all: clean prereq build
+all: clean build
 #all: clean prereq test build
 
 .PHONY: prereq
@@ -84,10 +84,13 @@ fmt:
 	goimports -l ./
 
 
-.PHONY: build $(GUI_SRC)
-build: dirs $(GUI_BIN)
 
-$(GUI_BIN): dist
-	GO111MODULE=on CGO_ENABLED=0 go build -ldflags '$(LDFLAGS)' -o $(GUI_BIN) -v $(GUI_SRC)
+.PHONY: build
+build: dirs build-gui
+
+#$(GUI_BIN): dist
+.PHONY: build-gui
+build-gui:
+	 go build -ldflags '$(LDFLAGS)' -o $(GUI_BIN) -v $(GUI_SRC)
 
 

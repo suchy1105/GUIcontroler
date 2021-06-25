@@ -6,8 +6,7 @@ import (
 	"github.com/go-chi/chi"
 	_ "github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
-	"github.com/suchy1105/GUIcontroler/api"
-	"github.com/suchy1105/GUIcontroler/gui"
+
 	"sync"
 	"time"
 	//"./api"
@@ -26,7 +25,7 @@ func run() {
 	var frontendRouter chi.Router = chi.NewRouter()
 	var wg sync.WaitGroup
 	//data:=api.NewGuiState()
-	frontendRouter.Route("/frontend", api.FrontendAPI()	)
+
 	apiServer := http.Server{
 		Addr:           ":8080",
 		Handler:        frontendRouter,
@@ -37,6 +36,7 @@ func run() {
 		//ErrorLog: golog.New(ioutil.Discard, "", 0),
 	}
 	wg.Add(1)
+
 	go func(wg *sync.WaitGroup) {
 		defer wg.Done()
 		log.Log().Msgf("starting backend api server on %s", apiServer.Addr)
@@ -48,14 +48,15 @@ func run() {
 		}
 	}(&wg)
 	//backendRouter.Route("/api/control", api.ControlAPI())
-
+	//frontendRouter.Route("/frontend", api.FrontendAPI()	)
+	frontendRouter.Get("/", get)
 
 //	var err error
 //	var conf config.Configuration
 //	conf.GetConf()
 //
-//go timer()
- gui.GUI()
+ timer()
+ //gui.GUI()
 
 
 
@@ -69,4 +70,10 @@ func  timer() {
 		fmt.Println("work in progress")
 		time.Sleep(1 * time.Second)
 	}
+}
+func get(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("404x")
+	w.WriteHeader(http.StatusOK)
+
+
 }

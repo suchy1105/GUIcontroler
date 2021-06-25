@@ -68,7 +68,7 @@ func postMessageHandler(/*s GuiState*/) http.HandlerFunc {
 }
 //NotFound 404
 func NotFound(w http.ResponseWriter, r *http.Request) {
-
+fmt.Println("404x")
 	w.WriteHeader(http.StatusNotFound)
 
 

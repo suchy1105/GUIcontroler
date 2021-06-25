@@ -16,7 +16,7 @@ import (
 	"gioui.org/unit"
 )
 
-//GUI START OMIT
+//GUI  dasa START OMIT
 func GUI() {
 	//m := Image{}
 	//pic.ShowImage(m)

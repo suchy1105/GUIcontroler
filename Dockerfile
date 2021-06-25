@@ -26,4 +26,4 @@ RUN printf '%s\n' 'path-exclude /usr/share/doc/*' 'path-include /usr/share/doc/*
 
 
 STOPSIGNAL SIGINT
-CMD ["/app/dist/main"]
+CMD ["/app/dist/dist"]

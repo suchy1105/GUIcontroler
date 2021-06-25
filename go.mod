@@ -1,9 +1,9 @@
-module github.com/suchy1105/GUIcontroler
+module GUIcontroler
 
 go 1.14
 
 require (
-	gioui.org v0.0.0-20210504193539-82fff0178bed
 	github.com/go-chi/chi v1.5.4
-	github.com/rs/zerolog v1.21.0
+	github.com/rs/zerolog v1.23.0
+	github.com/suchy1105/GUIcontroler v0.0.0-20210513085928-a64c5608d44b
 )

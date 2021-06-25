@@ -1,20 +1,12 @@
 package gui
-import (
-	"fmt"
 
+import (
 	"gioui.org/app"
 
 	//"image"
 	//"image/draw"
 
-	"gioui.org/font/gofont"
-	"gioui.org/io/system"
-	"gioui.org/layout"
-	"gioui.org/op"
 	"gioui.org/unit"
-	"gioui.org/widget"
-	//"gioui.org/widget/float"
-	"gioui.org/widget/material"
 )
 
 // START OMIT
@@ -30,7 +22,7 @@ func GUI() {
 }
 
 func loop(w *app.Window) {
-	th := material.NewTheme(gofont.Collection())
+/*	th := material.NewTheme(gofont.Collection())
 	var ops op.Ops
 	var float               = new(widget.Float)
 	// UI state.
@@ -47,7 +39,7 @@ func loop(w *app.Window) {
 			/*	layout.W.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
 				return
 			}*/
-			if count < 3 {
+	/*		if count < 3 {
 				layout.W.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
 					return layout.Flex{Axis: layout.Vertical}.Layout(gtx,
 						layout.Rigid(func(gtx layout.Context) layout.Dimensions {
@@ -101,7 +93,7 @@ func loop(w *app.Window) {
 			}
 			e.Frame(gtx.Ops)
 		}
-	}
+	}*/
 }
 
 // END OMIT

@@ -27,7 +27,7 @@ func NewGuiState()*GuiState{
 func FrontendAPI(/*s GuiState*/) func(router chi.Router) {
 	return func(router chi.Router) {
 		router.Get("/get", getMessagesHandler(/*s*/))
-		router.Post("/post", postMessageHandler(/*s*/)
+		router.Post("/post", postMessageHandler(/*s*/))
 	}
 }
 

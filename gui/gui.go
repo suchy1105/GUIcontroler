@@ -1,7 +1,14 @@
 package gui
 
 import (
+	"fmt"
 	"gioui.org/app"
+	"gioui.org/font/gofont"
+	"gioui.org/io/system"
+	"gioui.org/layout"
+	"gioui.org/op"
+	"gioui.org/widget"
+	"gioui.org/widget/material"
 
 	//"image"
 	//"image/draw"
@@ -9,7 +16,7 @@ import (
 	"gioui.org/unit"
 )
 
-// START OMIT
+//GUI START OMIT
 func GUI() {
 	//m := Image{}
 	//pic.ShowImage(m)
@@ -22,7 +29,7 @@ func GUI() {
 }
 
 func loop(w *app.Window) {
-/*	th := material.NewTheme(gofont.Collection())
+	th := material.NewTheme(gofont.Collection())
 	var ops op.Ops
 	var float               = new(widget.Float)
 	// UI state.
@@ -39,7 +46,7 @@ func loop(w *app.Window) {
 			/*	layout.W.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
 				return
 			}*/
-	/*		if count < 3 {
+			if count < 3 {
 				layout.W.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
 					return layout.Flex{Axis: layout.Vertical}.Layout(gtx,
 						layout.Rigid(func(gtx layout.Context) layout.Dimensions {
@@ -93,7 +100,7 @@ func loop(w *app.Window) {
 			}
 			e.Frame(gtx.Ops)
 		}
-	}*/
+	}
 }
 
 // END OMIT

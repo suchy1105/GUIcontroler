@@ -25,7 +25,8 @@ func run() {
 
 	var frontendRouter chi.Router = chi.NewRouter()
 	var wg sync.WaitGroup
-
+	//data:=api.NewGuiState()
+	frontendRouter.Route("/frontend", api.FrontendAPI()	)
 	apiServer := http.Server{
 		Addr:           ":8080",
 		Handler:        frontendRouter,
@@ -47,13 +48,13 @@ func run() {
 		}
 	}(&wg)
 	//backendRouter.Route("/api/control", api.ControlAPI())
-	data:=api.NewGuiState()
-	frontendRouter.Route("/frontend", api.FrontendAPI(*data)	)
+
+
 //	var err error
 //	var conf config.Configuration
 //	conf.GetConf()
 //
-go timer()
+//go timer()
  gui.GUI()
 
 

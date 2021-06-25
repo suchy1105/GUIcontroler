@@ -23,7 +23,8 @@ func NewGuiState()*GuiState{
 	}
 	return &g
 }
-//FrontendAPI
+
+//FrontendAPI xxxxd
 func FrontendAPI(s GuiState) func(router chi.Router) {
 	return func(router chi.Router) {
 		router.Get("/get", getMessagesHandler(s))

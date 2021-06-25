@@ -48,7 +48,7 @@ func run() {
 	}(&wg)
 	//backendRouter.Route("/api/control", api.ControlAPI())
 	data:=api.NewGuiState()
-	frontendRouter.Route("/frontend", api.NewGuiState(*data)	)
+	frontendRouter.Route("/frontend", api.FrontendAPI(*data)	)
 //	var err error
 //	var conf config.Configuration
 //	conf.GetConf()

@@ -42,7 +42,7 @@ func getMessagesHandler(s *GuiState) http.HandlerFunc {
 		if err != nil {
 			log.Println("Can't marshal data: ", err)
 		}
-		fmt.Println("odpowiedz: ", response)
+
 		w.Write(response)
 
 		w.WriteHeader(http.StatusOK)
@@ -51,7 +51,7 @@ func getMessagesHandler(s *GuiState) http.HandlerFunc {
 //PostMessage posts
 func postMessageHandler(s *GuiState) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println("pst")
+
 		guistate := NewGuiState()
 		json.NewDecoder(r.Body).Decode(guistate)
 
@@ -60,16 +60,12 @@ func postMessageHandler(s *GuiState) http.HandlerFunc {
 		s.ConnState = guistate.ConnState
 		s.PlayStipa = guistate.PlayStipa
 
-		fmt.Println(s)
-		fmt.Println(s.Ip)
-		fmt.Println(guistate.Ip)
-
 		w.WriteHeader(http.StatusCreated)
 	}
 }
 //NotFound 404
 func NotFound(w http.ResponseWriter, r *http.Request) {
-fmt.Println("404x")
+fmt.Println("404")
 	w.WriteHeader(http.StatusNotFound)
 }
 

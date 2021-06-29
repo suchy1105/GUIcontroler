@@ -1,6 +1,7 @@
 package main //GUIsocket
 
 import (
+	"GUIcontroler/api"
 	//"./gui"
 	"fmt"
 	"github.com/go-chi/chi"
@@ -21,13 +22,15 @@ func main() {
 }
 func run() {
 
+	s := api.NewGuiState()
+
 
 	var frontendRouter chi.Router = chi.NewRouter()
 	var wg sync.WaitGroup
-	//data:=api.NewGuiState()
 
+	frontendRouter.Route("/frontend", api.FrontendAPI(s))
 	apiServer := http.Server{
-		Addr:           ":8080",
+		Addr:           ":8081",
 		Handler:        frontendRouter,
 		ReadTimeout:    360 * time.Second,
 		WriteTimeout:   360 * time.Second,
@@ -47,9 +50,10 @@ func run() {
 			}
 		}
 	}(&wg)
-	//backendRouter.Route("/api/control", api.ControlAPI())
+
+
 	//frontendRouter.Route("/frontend", api.FrontendAPI()	)
-	frontendRouter.Get("/", get)
+	//frontendRouter.Get("/", get)
 
 //	var err error
 //	var conf config.Configuration
@@ -57,9 +61,6 @@ func run() {
 //
  timer()
  //gui.GUI()
-
-
-
 
 	fmt.Println("lisetner")
 
@@ -73,6 +74,7 @@ func  timer() {
 }
 func get(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("404x")
+	//r.Write("karol")
 	w.WriteHeader(http.StatusOK)
 
 

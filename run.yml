@@ -1,7 +1,7 @@
 version: '2.4'
 services:
   GUIcontroll:
-    image: "suchy11/guisocket:latest"
+    image: "guiimage:latest"
     #env_file:
     #  - /etc/hae/config/env/hae.env
     #environment:
@@ -11,9 +11,9 @@ services:
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix
       - .:/app
-      - $GOPATH/pkg/mod/cache/download:/go/pkg/mod/cache/download
+ #     - $GOPATH/pkg/mod/cache/download:/go/pkg/mod/cache/download
     ports:
       - 1551:1551
-      - 8080:8080
+      - 8081:8081
     container_name: GUIcontroll
-    network_mode: "host"
+    #network_mode: "host"

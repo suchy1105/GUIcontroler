@@ -2,6 +2,8 @@ package main //GUIsocket
 
 import (
 	"GUIcontroler/api"
+	"GUIcontroler/gui"
+
 	//"./gui"
 	"fmt"
 	"github.com/go-chi/chi"
@@ -60,7 +62,7 @@ func run() {
 //	conf.GetConf()
 //
  timer()
- //gui.GUI()
+ gui.GUI()
 
 	fmt.Println("lisetner")
 

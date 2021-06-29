@@ -35,8 +35,6 @@ func FrontendAPI(s *GuiState) func(router chi.Router) {
 //GetMessages API  messages get provider
 func getMessagesHandler(s *GuiState) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println("List allrequri: ", r.RequestURI)
-		fmt.Println("GG: ", s)
 
 		response, err := json.Marshal(s)
 		if err != nil {

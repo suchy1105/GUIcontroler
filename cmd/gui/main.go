@@ -52,16 +52,8 @@ func run() {
 			}
 		}
 	}(&wg)
-
-
-	//frontendRouter.Route("/frontend", api.FrontendAPI()	)
-	//frontendRouter.Get("/", get)
-
-//	var err error
-//	var conf config.Configuration
-//	conf.GetConf()
-//
- timer()
+	
+ //go timer()
  gui.GUI()
 
 	fmt.Println("lisetner")

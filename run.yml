@@ -4,13 +4,15 @@ services:
     image: "guiimage:latest"
     #env_file:
     #  - /etc/hae/config/env/hae.env
-    #environment:
-    #  - HOST_IP
-    #privileged: true
+    environment:
+      - DISPLAY=${DISPLAY}
+    privileged: true
     restart: always
     volumes:
+      - ~/.Xauthority:/root/.Xauthority
       - /tmp/.X11-unix:/tmp/.X11-unix
       - .:/app
+      - "/usr/bin/xrandr:/usr/bin/xrandr"
  #     - $GOPATH/pkg/mod/cache/download:/go/pkg/mod/cache/download
     ports:
       - 1551:1551

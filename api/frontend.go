@@ -21,6 +21,7 @@ func NewGuiState()*GuiState{
 		Mac:       "xx",
 		ConnState: false,
 		PlayStipa: false,
+		AlsaVolume: "80",
 	}
 	return &g
 }
@@ -58,7 +59,7 @@ func postMessageHandler(s *GuiState) http.HandlerFunc {
 		s.Mac = guistate.Mac
 		s.ConnState = guistate.ConnState
 		s.PlayStipa = guistate.PlayStipa
-
+		s.AlsaVolume = guistate.AlsaVolume
 		w.WriteHeader(http.StatusCreated)
 		fmt.Println(s)
 	}

@@ -13,6 +13,7 @@ type GuiState struct {
 	Mac       string `json:"mac"`
 	ConnState bool `json:"cstate"`
 	PlayStipa bool  `json:"stipa"`
+	AlsaVolume string `json:"alsa_volume"`
 }
 func NewGuiState()*GuiState{
 	 g:= GuiState{
@@ -59,6 +60,7 @@ func postMessageHandler(s *GuiState) http.HandlerFunc {
 		s.PlayStipa = guistate.PlayStipa
 
 		w.WriteHeader(http.StatusCreated)
+		fmt.Println(s)
 	}
 }
 //NotFound 404

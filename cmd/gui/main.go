@@ -54,7 +54,7 @@ func run() {
 	}(&wg)
 	
  //go timer()
- gui.GUI()
+ gui.GUI(s)
 
 	fmt.Println("lisetner")
 

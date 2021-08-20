@@ -13,15 +13,38 @@ type GuiState struct {
 	Mac       string `json:"mac"`
 	ConnState bool `json:"cstate"`
 	PlayStipa bool  `json:"stipa"`
-	AlsaVolume string `json:"alsa_volume"`
+	AlsaVolumeM string `json:"alsa_volumem"`
+	AlsaVolume1 string `json:"alsa_volume1"`
+	AlsaVolume2 string `json:"alsa_volume2"`
+	AlsaVolume3 string `json:"alsa_volume3"`
+	AlsaVolume4 string `json:"alsa_volume4"`
+	NumberOfCards string `json:"number_of_cards"`
+	MuteMaster bool `json:"mute_master"`
+	MuteCH1 bool`json:"mute_ch_1"`
+	MuteCH2 bool`json:"mute_ch_2"`
+	MuteCH3 bool`json:"mute_ch_3"`
+	MuteCH4 bool`json:"mute_ch_4"`
+	PlayVoice bool `json:"play_voice"`
+
 }
 func NewGuiState()*GuiState{
 	 g:= GuiState{
-		Ip:        "xx",
-		Mac:       "xx",
-		ConnState: false,
+		Ip:        "000.000.000.000",
+		Mac:       "AAAA:BBBB:CCCC:DDDD",
+		ConnState: true,
 		PlayStipa: false,
-		AlsaVolume: "80",
+		AlsaVolumeM: "80",
+		AlsaVolume1: "70",
+		AlsaVolume2: "60",
+		AlsaVolume3: "50",
+		AlsaVolume4: "40",
+		NumberOfCards: "4",
+		MuteMaster: false,
+		MuteCH1: false,
+		MuteCH2: false,
+		MuteCH3: false,
+		MuteCH4: false,
+		PlayVoice: false,
 	}
 	return &g
 }
@@ -59,7 +82,7 @@ func postMessageHandler(s *GuiState) http.HandlerFunc {
 		s.Mac = guistate.Mac
 		s.ConnState = guistate.ConnState
 		s.PlayStipa = guistate.PlayStipa
-		s.AlsaVolume = guistate.AlsaVolume
+		s.AlsaVolumeM = guistate.AlsaVolumeM
 		w.WriteHeader(http.StatusCreated)
 		fmt.Println(s)
 	}

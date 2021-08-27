@@ -49,21 +49,21 @@ func loop(w *app.Window, state *api.GuiState) {
 	counter :=0
 	var c bool = true
 	var ops op.Ops
-	var float               = new(widget.Float)
+	var float          		    = new(widget.Float)
 	var floatsub1               = new(widget.Float)
 	var floatsub2               = new(widget.Float)
 	var floatsub3               = new(widget.Float)
 	var floatsub4               = new(widget.Float)
-	tmp,_:=strconv.ParseFloat(state.AlsaVolumeM,64)
-	float.Value=float32(tmp)
-	tmp,_=strconv.ParseFloat(state.AlsaVolume1,64)
-	floatsub1.Value=float32(tmp)
-	tmp,_=strconv.ParseFloat(state.AlsaVolume2,64)
-	floatsub2.Value=float32(tmp)
-	tmp,_=strconv.ParseFloat(state.AlsaVolume3,64)
-	floatsub3.Value=float32(tmp)
-	tmp,_=strconv.ParseFloat(state.AlsaVolume4,64)
-	floatsub4.Value=float32(tmp)
+	volM,_:=strconv.ParseFloat(state.AlsaVolumeM,32)
+	float.Value=float32(volM)
+	vol1,_:=strconv.ParseFloat(state.AlsaVolume1,32)
+	floatsub1.Value=float32(vol1)
+	vol2,_:=strconv.ParseFloat(state.AlsaVolume2,32)
+	floatsub2.Value=float32(vol2)
+	vol3,_:=strconv.ParseFloat(state.AlsaVolume3,32)
+	floatsub3.Value=float32(vol3)
+	vol4,_:=strconv.ParseFloat(state.AlsaVolume4,32)
+	floatsub4.Value=float32(vol4)
 	// UI state.
 	var btn widget.Clickable
 	var btnMuteMaster widget.Clickable
@@ -82,9 +82,30 @@ func loop(w *app.Window, state *api.GuiState) {
 				state.ConnState=!state.ConnState
 				fmt.Println(count)
 			}
+			for btnMuteMaster.Clicked(){
+				fmt.Println("klikniety Master",float.Value)
+				float.Value=0
+			}
+			for btnMute1.Clicked(){
+				fmt.Println("klikniety Master1",floatsub1.Value)
+				floatsub1.Value=0
+			}
+			for btnMute2.Clicked(){
+				fmt.Println("klikniety Master2",floatsub2.Value)
+				floatsub2.Value=0
+			}
+			for btnMute3.Clicked(){
+				fmt.Println("klikniety Master3",floatsub3.Value)
+				floatsub3.Value=0
+			}
+			for btnMute4.Clicked(){
+				fmt.Println("klikniety Maste4r", floatsub4.Value)
+				floatsub4.Value=0
+			}
 			// Process events using the key, c.
 			for _, e := range gtx.Events(c) {
 				if e, ok := e.(pointer.Event); ok {
+
 					if e.Type == pointer.Press {
 
 						if begin == false {
@@ -101,16 +122,26 @@ func loop(w *app.Window, state *api.GuiState) {
 						}
 						if counter > 5 && timeSpace < 3*time.Second {
 							fmt.Println("level up")
-							menulevel++
+							//menulevel++
 						}
+
 						c = !c
 						counter++
 					}
-				}
+					//if e, ok = e.(pointer.Event); ok {
+					//	if e.Type == pointer.ButtonPrimary {
 
+					//		fmt.Println("levebutttonl up")
+
+					//	}
+					//}
+					fmt.Println(floatsub4.Value, "float syb 4")
+				}
+				fmt.Println(floatsub4.Value, "float syb 4")
 
 
 			}
+
 
 		if menulevel==1{	// Confine input to the area covered by the checkbox.
 			image.RegisterFormat("png", "png", png.Decode, png.DecodeConfig)
@@ -276,6 +307,25 @@ func loop(w *app.Window, state *api.GuiState) {
 
 				)
 			})
+			switch  {
+			case int(volM)!=int(float.Value):
+				volM=float64(float.Value)
+				fmt.Println("uneq1",volM)
+			case int(vol1)!=int(floatsub1.Value):
+				vol1=float64(floatsub1.Value)
+				fmt.Println("uneq2",vol1)
+			case int(vol2)!=int(floatsub2.Value):
+				vol2=float64(floatsub2.Value)
+				fmt.Println("uneq3", vol2)
+			case int(vol3)!=int(floatsub3.Value):
+				vol3=float64(floatsub3.Value)
+				fmt.Println("uneq4", vol3)
+
+			case int(vol4)!=int(floatsub4.Value):
+				vol4=float64(floatsub4.Value)
+				fmt.Println("uneq5",vol4)
+
+			}
 			op.Offset(f32.Pt(0, 350)).Add(&ops) //DO USTAWIENIA KURSORA
 			if state.ConnState!=true {
 				dirlinkred, _ := os.Open("./linkRedS.png")
@@ -318,10 +368,10 @@ func loop(w *app.Window, state *api.GuiState) {
 
 			}
 
-
 		}
 
 			e.Frame(gtx.Ops)
+		//	pointer.InputOp{Tag: c, Types: pointer.Press}.Add(gtx.Ops)
 		}
 	}
 }

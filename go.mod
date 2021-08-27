@@ -3,9 +3,7 @@ module GUIcontroler
 go 1.14
 
 require (
-	gioui.org v0.0.0-20210623091900-5b8da35a798b
+	gioui.org v0.0.0-20210827040121-baa98e773777
 	github.com/go-chi/chi v1.5.4
 	github.com/rs/zerolog v1.23.0
-	gopkg.in/yaml.v2 v2.4.0 // indirect
-//github.com/suchy1105/GUIcontroler/api v0.0.0 //indirect
 )

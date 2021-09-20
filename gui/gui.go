@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"gioui.org/font/gofont"
 	"gioui.org/io/pointer"
+	//"gioui.org/op/clip"
 	"gioui.org/widget/material"
 	"image/jpeg"
 	"image/png"
@@ -42,13 +43,23 @@ func GUI(state *api.GuiState) {
 func loop(w *app.Window, state *api.GuiState) {
 	th := material.NewTheme(gofont.Collection())
 	timeSpace:=0*time.Second
-	var menulevel int = 2
+	var menulevel  		= 	2
 	var start time.Time
-	var begin bool = true
-	const size = 50
-	counter :=0
-	var c bool = true
+	var begin  			= 	true
+	const size 			=	50
+	//const sizeXNTIMin   =   0
+	//const sizeYNTIMin   =   0
+	const sizeXNTI 		=	100
+	const sizeYNTI 		=	100
+	//const sizeXVoiceMin	=	0
+	//const sizeYVoiceMin	=	0
+	//const sizeXVoiceMax	=	60
+	//const sizeYVoiceMax	=	380
+	counter 			:=	0
+	var c  				=	true
+
 	var ops op.Ops
+	//var ops1 op.Ops
 	var float          		    = new(widget.Float)
 	var floatsub1               = new(widget.Float)
 	var floatsub2               = new(widget.Float)
@@ -71,12 +82,14 @@ func loop(w *app.Window, state *api.GuiState) {
 	var btnMute2 widget.Clickable
 	var btnMute3 widget.Clickable
 	var btnMute4 widget.Clickable
+	var btnNTI widget.Clickable
+	var btnVoice widget.Clickable
 	var count int
-
+	var changes = false
 	for e := range w.Events() {
 		if e, ok := e.(system.FrameEvent); ok {
 			gtx := layout.NewContext(&ops, e)
-
+			//gtx1 := layout.NewContext(&ops1,e)
 			for btn.Clicked() {
 				count++
 				state.ConnState=!state.ConnState
@@ -102,8 +115,18 @@ func loop(w *app.Window, state *api.GuiState) {
 				fmt.Println("klikniety Maste4r", floatsub4.Value)
 				floatsub4.Value=0
 			}
+			for btnNTI.Clicked(){
+				fmt.Println("klikniety NTI", floatsub4.Value)
+				state.PlayStipa=!state.PlayStipa
+				changes=true
+			}
+			for btnVoice.Clicked(){
+				fmt.Println("klikniety Voice", floatsub4.Value)
+				state.PlayVoice=!state.PlayVoice
+				changes=true
+			}
 			// Process events using the key, c.
-			for _, e := range gtx.Events(c) {
+			 for _, e := range gtx.Events(c)   {
 				if e, ok := e.(pointer.Event); ok {
 
 					if e.Type == pointer.Press {
@@ -135,12 +158,13 @@ func loop(w *app.Window, state *api.GuiState) {
 
 					//	}
 					//}
-					fmt.Println(floatsub4.Value, "float syb 4")
+					fmt.Println(floatsub4.Value, "float syb 4 event CE")
 				}
 				fmt.Println(floatsub4.Value, "float syb 4")
 
 
 			}
+
 
 
 		if menulevel==1{	// Confine input to the area covered by the checkbox.
@@ -297,34 +321,132 @@ func loop(w *app.Window, state *api.GuiState) {
 									/*material.Body1(th, fmt.Sprintf("%.0f", floatsub4.Value)).Layout,*/ material.Button(th,&btnMute4,"Mute").Layout,
 								)
 							}),
+
+
 						)
+
 					}),
 
+
+
+
+
 					layout.Rigid(func(gtx layout.Context) layout.Dimensions {
-						op.Offset(f32.Pt(0, 110)).Add(&ops)
+						return layout.Flex{Alignment: layout.End}.Layout(gtx,
+							layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+								return layout.UniformInset(unit.Dp(4)).Layout(gtx,
+									material.Body1(th, fmt.Sprintf(" 																																																				" )).Layout,
+								)
+							}),
+
+							layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+								return layout.UniformInset(unit.Dp(4)).Layout(gtx,
+									material.Button(th,&btnNTI,"NTIStipa").Layout,
+
+								)
+							}),
+							layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+								return layout.UniformInset(unit.Dp(4)).Layout(gtx,
+									material.Button(th,&btnVoice,"Voice").Layout,
+								)
+							}),
+
+
+						)
+
+					}),
+
+					//layout.Flexed(100, material.Button(th, &btnMuteMaster, "play").Layout),
+					//layout.Flexed(10, material.Slider(th, floatsub4, 0, 100).Layout),
+					/*layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+						return layout.UniformInset(unit.Dp(40)).Layout(gtx,
+							material.Button(th,&btnMuteMaster,"Play STIPA").Layout,
+						)
+					}),*/
+
+					layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+						op.Offset(f32.Pt(0, 90)).Add(&ops)
 						return material.H5(th, fmt.Sprintf("IP: %s                              MAC: %s", state.Ip, state.Mac)).Layout(gtx)
 					}),
 
 				)
 			})
+
+/*			pointer.Rect(image.Rectangle{//Min: image.Point{
+			//	X: sizeXNTIMin,
+			//	Y: sizeYNTIMin,
+			//},
+			Max: image.Point{
+
+				X: sizeXNTI,
+				Y: sizeYNTI,
+			}}).Add(gtx.Ops)
+						// Declare the filter with the key, c.
+			pointer.InputOp{Tag: cd, Types: pointer.Press}.Add(gtx.Ops)
+*/
+			//col := color.NRGBA{A: 0xff, G: 0xff} // Green.
+			// Draw checkbox. Red for unchecked, green for checked.
+
+			//paint.PaintOp{}.Add(gtx.Ops)
+
+			/*pointer.Rect(image.Rectangle{
+				Min: image.Point{
+					X: sizeXVoiceMin,
+					Y: sizeYVoiceMin,
+				},
+				Max: image.Point{
+					X: sizeXVoiceMax,
+					Y: sizeYVoiceMax,
+			}}).Add(gtx.Ops)*/
+
+			//paint.ColorOp{Color: col}.Add(gtx.Ops)
+/*			clip.Rect{
+				/*Min: image.Point{
+					X: sizeXNTIMin,
+					Y: sizeYNTIMin,
+				},
+				Max: image.Point{
+
+					X: sizeXNTI,
+					Y: sizeYNTI,
+				},
+			}.Add(gtx.Ops)
+			paint.PaintOp{}.Add(gtx.Ops)*/
+			/*clip.Rect{
+				Min: image.Point{
+					X: sizeXVoiceMin,
+					Y: sizeYVoiceMin,
+				},
+				Max: image.Point{
+					X: sizeXVoiceMax,
+					Y: sizeYVoiceMax,
+				},
+			}.Add(gtx.Ops)*/
+		//paint.PaintOp{}.Add(gtx.Ops)
+			// Declare the filter with the key, c.
+		//	pointer.InputOp{Tag: ce, Types: pointer.Press}.Add(gtx.Ops)
+
 			switch  {
 			case int(volM)!=int(float.Value):
 				volM=float64(float.Value)
 				fmt.Println("uneq1",volM)
+				changes=true
 			case int(vol1)!=int(floatsub1.Value):
 				vol1=float64(floatsub1.Value)
 				fmt.Println("uneq2",vol1)
+				changes=true
 			case int(vol2)!=int(floatsub2.Value):
 				vol2=float64(floatsub2.Value)
 				fmt.Println("uneq3", vol2)
+				changes=true
 			case int(vol3)!=int(floatsub3.Value):
 				vol3=float64(floatsub3.Value)
 				fmt.Println("uneq4", vol3)
-
+				changes=true
 			case int(vol4)!=int(floatsub4.Value):
 				vol4=float64(floatsub4.Value)
 				fmt.Println("uneq5",vol4)
-
+				changes=true
 			}
 			op.Offset(f32.Pt(0, 350)).Add(&ops) //DO USTAWIENIA KURSORA
 			if state.ConnState!=true {
@@ -365,13 +487,22 @@ func loop(w *app.Window, state *api.GuiState) {
 
 			}else {
 				drawImage(&ops, ObrazSpeachoff)
-
 			}
-
 		}
 
 			e.Frame(gtx.Ops)
 		//	pointer.InputOp{Tag: c, Types: pointer.Press}.Add(gtx.Ops)
+		}
+		if changes==true{
+
+
+			state.AlsaVolumeM=strconv.Itoa(int(volM))
+			state.AlsaVolume1=strconv.Itoa(int(vol1))
+			state.AlsaVolume2=strconv.Itoa(int(vol2))
+			state.AlsaVolume3=strconv.Itoa(int(vol3))
+			state.AlsaVolume4=strconv.Itoa(int(vol4))
+			push(state)
+			changes=false
 		}
 	}
 }
@@ -381,5 +512,8 @@ func drawImage(ops *op.Ops, img image.Image) {
 	imageOp.Add(ops)
 	op.Affine(f32.Affine2D{}.Scale(f32.Pt(100, 100), f32.Pt(400, 400)))
 	paint.PaintOp{}.Add(ops)
+}
+func push(s *api.GuiState){
+  fmt.Println("Pushed data: ",s)
 }
 

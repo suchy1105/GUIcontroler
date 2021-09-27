@@ -26,6 +26,8 @@ RUN printf '%s\n' 'path-exclude /usr/share/doc/*' 'path-include /usr/share/doc/*
     fc-cache  && cp /usr/share/zoneinfo/Europe/Warsaw /etc/localtime && \
     echo "Europe/Warsaw" >  /etc/timezone
 #RUN apt-get update && apt-get install
+RUN go get github.com/suchy1105/GUIcontroler &&  go get github.com/go-chi/chi && go mod init github.com/suchy1105/GUIcontroler && go build -o /app/dist/ -v /app/cmd/gui/main.go
+RUN chmod -R +x /opt/h/* && mkdir -p /var/husar/gui
 COPY . /app
 STOPSIGNAL SIGINT
 CMD ["/app/dist/dist"]

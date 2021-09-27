@@ -43,7 +43,7 @@ func GUI(state *api.GuiState) {
 func loop(w *app.Window, state *api.GuiState) {
 	th := material.NewTheme(gofont.Collection())
 	timeSpace:=0*time.Second
-	var menulevel  		= 	2
+	var menulevel  		= 	1
 	var start time.Time
 	var begin  			= 	true
 	const size 			=	50
@@ -84,6 +84,7 @@ func loop(w *app.Window, state *api.GuiState) {
 	var btnMute4 widget.Clickable
 	var btnNTI widget.Clickable
 	var btnVoice widget.Clickable
+	var btnExit widget.Clickable
 	var count int
 	var changes = false
 	for e := range w.Events() {
@@ -125,6 +126,10 @@ func loop(w *app.Window, state *api.GuiState) {
 				state.PlayVoice=!state.PlayVoice
 				changes=true
 			}
+			for btnExit.Clicked(){
+				fmt.Println("exit")
+				menulevel=1
+			}
 			// Process events using the key, c.
 			 for _, e := range gtx.Events(c)   {
 				if e, ok := e.(pointer.Event); ok {
@@ -145,7 +150,7 @@ func loop(w *app.Window, state *api.GuiState) {
 						}
 						if counter > 5 && timeSpace < 3*time.Second {
 							fmt.Println("level up")
-							//menulevel++
+							menulevel++
 						}
 
 						c = !c
@@ -180,7 +185,7 @@ func loop(w *app.Window, state *api.GuiState) {
 			}}).Add(gtx.Ops)
 			// Declare the filter with the key, c.
 			pointer.InputOp{Tag: c, Types: pointer.Press}.Add(gtx.Ops)
-			fmt.Println(counter)
+			fmt.Println("counter: ",counter)
 		}
 			/*	layout.W.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
 				return
@@ -335,7 +340,7 @@ func loop(w *app.Window, state *api.GuiState) {
 						return layout.Flex{Alignment: layout.End}.Layout(gtx,
 							layout.Rigid(func(gtx layout.Context) layout.Dimensions {
 								return layout.UniformInset(unit.Dp(4)).Layout(gtx,
-									material.Body1(th, fmt.Sprintf(" 																																																				" )).Layout,
+									material.Body1(th, fmt.Sprintf(" 																																															" )).Layout,
 								)
 							}),
 
@@ -350,7 +355,11 @@ func loop(w *app.Window, state *api.GuiState) {
 									material.Button(th,&btnVoice,"Voice").Layout,
 								)
 							}),
-
+							layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+								return layout.UniformInset(unit.Dp(4)).Layout(gtx,
+									material.Button(th,&btnExit,"EXIT").Layout,
+								)
+							}),
 
 						)
 

@@ -14,7 +14,7 @@
 #RUN chmod -R +x /opt/h/* && mkdir -p /var/husar/gui
 
 #VOLUME /home/karoldb/GolangProjects/GUIsocket
-FROM debian:latest
+FROM golang:latest
 #AS executor
 #COPY --from=builder /app /app
 
@@ -25,7 +25,13 @@ RUN printf '%s\n' 'path-exclude /usr/share/doc/*' 'path-include /usr/share/doc/*
     apt-get update && apt-get install --no-install-recommends -yq firefox-esr x11-apps xauth tzdata apt-utils mesa-utils and libgl1-mesa-glx wayland-protocols libxkbcommon-x11-dev libwayland-egl1 libwayland-dev libwayland-bin libwayland-egl1-mesa libfontconfig1 ca-certificates fontconfig ttf-mscorefonts-installer imagemagick x11-xserver-utils apt-utils libegl1 libegl1-mesa libegl-mesa0 make golang && \
     fc-cache  && cp /usr/share/zoneinfo/Europe/Warsaw /etc/localtime && \
     echo "Europe/Warsaw" >  /etc/timezone
-#RUN apt-get update && apt-get install
+#RUN apt-get update && apt-get install  gettext-base git-daemon-run git
+#| git-daemon-sysvinit git-doc git-el git-email
+#RUN apt-get update && apt-get install git-gui gitk gitweb git-cvs git-mediawiki git-svn perl-doc
+#RUN apt-get update && apt-get install libterm-readline-gnu-perl | libterm-readline-perl-perl libb-debug-perl
+#RUN apt-get update && apt-get install liblocale-codes-perl
+
+
 RUN go get github.com/suchy1105/GUIcontroler &&  go get github.com/go-chi/chi && go mod init github.com/suchy1105/GUIcontroler && go build -o /app/dist/ -v /app/cmd/gui/main.go
 RUN chmod -R +x /opt/h/* && mkdir -p /var/husar/gui
 COPY . /app

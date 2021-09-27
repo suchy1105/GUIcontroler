@@ -1,10 +1,10 @@
 package gui
 
 import (
-	"GUIcontroler/api"
 	"fmt"
 	"gioui.org/font/gofont"
 	"gioui.org/io/pointer"
+	"github.com/suchy1105/GUIcontroler/api"
 	//"gioui.org/op/clip"
 	"gioui.org/widget/material"
 	"image/jpeg"

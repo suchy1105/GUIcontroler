@@ -1,8 +1,8 @@
 package main //GUIsocket
 
 import (
-	"GUIcontroler/api"
-	"GUIcontroler/gui"
+	"github.com/suchy1105/GUIcontroler/api"
+	"github.com/suchy1105/GUIcontroler/gui"
 
 	//"./gui"
 	"fmt"

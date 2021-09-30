@@ -14,7 +14,7 @@
 #RUN chmod -R +x /opt/h/* && mkdir -p /var/husar/gui
 
 #VOLUME /home/karoldb/GolangProjects/GUIsocket
-FROM golang:latest
+FROM golang:1.17
 #AS executor
 #COPY --from=builder /app /app
 
@@ -32,10 +32,14 @@ RUN printf '%s\n' 'path-exclude /usr/share/doc/*' 'path-include /usr/share/doc/*
 #RUN apt-get update && apt-get install liblocale-codes-perl
 
 COPY . /app
-RUN cd /app
-RUN go get github.com/suchy1105/GUIcontroler &&  go get github.com/go-chi/chi #&& go mod tidy
+WORKDIR /app
+RUN  go get github.com/go-chi/chi
+#&& go mod tidy
+
 RUN go mod download
-RUN go mod init github.com/suchy1105/GUIcontroler
+#github.com/suchy1105/GUIcontroler
+#RUN go mod init github.com/suchy1105/GUIcontroler
+
 RUN go build -o /app/dist/ -v /app/cmd/gui/main.go
 RUN chmod -R +x /opt/h/* && mkdir -p /var/husar/gui
 

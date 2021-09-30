@@ -31,9 +31,13 @@ RUN printf '%s\n' 'path-exclude /usr/share/doc/*' 'path-include /usr/share/doc/*
 #RUN apt-get update && apt-get install libterm-readline-gnu-perl | libterm-readline-perl-perl libb-debug-perl
 #RUN apt-get update && apt-get install liblocale-codes-perl
 
-
-RUN go get github.com/suchy1105/GUIcontroler &&  go get github.com/go-chi/chi && go mod init github.com/suchy1105/GUIcontroler && go build -o /app/dist/ -v /app/cmd/gui/main.go
-RUN chmod -R +x /opt/h/* && mkdir -p /var/husar/gui
 COPY . /app
+RUN cd /app
+RUN go get github.com/suchy1105/GUIcontroler &&  go get github.com/go-chi/chi #&& go mod tidy
+RUN go mod download
+RUN go mod init github.com/suchy1105/GUIcontroler
+RUN go build -o /app/dist/ -v /app/cmd/gui/main.go
+RUN chmod -R +x /opt/h/* && mkdir -p /var/husar/gui
+
 STOPSIGNAL SIGINT
 CMD ["/app/dist/dist"]
